@@ -7,16 +7,14 @@ on:
     branches: [ "main" ]
 
 env:
-  QUARKUS_MONGODB_CONNECTION_STRING: mongodb://@localhost:27017
-  QUARKUS_MONGODB_DATABASE: stations
-
+  QUARKUS_MONGODB_CONNECTION_STRING: mongodb://localhost:27017
 
 jobs:
   build-test-package:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
+      mongo:
         image: mongo:4.0.4
         ports:
           - 27017:27017
