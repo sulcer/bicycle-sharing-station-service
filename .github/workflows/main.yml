@@ -23,6 +23,15 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      active-mq:
+        image: quay.io/artemiscloud/activemq-artemis-broker:1.0.25
+        ports:
+          - 61616:61616
+          - 5672:5672
+          - 8161:8161
+        env:
+          ARTEMIS_USERNAME: quarkus
+          ARTEMIS_PASSWORD: quarkus
 
     steps:
       - uses: actions/checkout@v3

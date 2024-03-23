@@ -4,12 +4,12 @@ import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import jakarta.jms.*;
 import lombok.Getter;
 import si.feri.jms.producer.Producer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
-import javax.jms.*;
 
 @ApplicationScoped
 public class Consumer implements Runnable {

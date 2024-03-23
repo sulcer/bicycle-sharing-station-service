@@ -6,12 +6,12 @@ import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import si.feri.station.StationRepository;
 import si.feri.station.entity.Station;
-import javax.jms.*;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+import jakarta.jms.*;
 
 @ApplicationScoped
 public class Producer implements Runnable {
