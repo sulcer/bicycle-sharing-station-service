@@ -1,4 +1,5 @@
 package si.feri.station;
+import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -17,25 +18,33 @@ public class StationResource {
     StationRepository stationRepository;
 
     @POST
-    @Produces(MediaType.TEXT_PLAIN)
-    public void createStation(CreateStationDto createStationDto) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<Void> createStation(CreateStationDto createStationDto) {
         log.info("Creating station with station_number: " + createStationDto.station_number);
-        stationRepository.add(createStationDto.station_number, createStationDto.name, createStationDto.location);
+        stationRepository.add(createStationDto.station_number, createStationDto.name, createStationDto.location).await().indefinitely();
+        return Uni.createFrom().nullItem();
     }
+
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<String> getAllStations() {
+//        log.info("Getting all stations");
+//        return stationRepository.listAll().await().indefinitely().stream().map(Station::getName).collect(Collectors.toList());
+//    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getAllStations() {
+    public Uni<List<Station>> getAllStations() {
         log.info("Getting all stations");
-        return stationRepository.listAll().await().indefinitely().stream().map(Station::getName).collect(Collectors.toList());
+        return stationRepository.listAll();
     }
 
     @GET
     @Path("/{station_number}/{location}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Station getStation(String station_number, String location) {
+    public Uni<Station> getStation(String station_number, String location) {
         log.info("Getting station with station_number: " + station_number + " and location: " + location);
-        return stationRepository.get(station_number, location).await().indefinitely();
+        return stationRepository.get(station_number, location);
     }
 
 //    @PUT
@@ -48,10 +57,11 @@ public class StationResource {
 
     @DELETE
     @Path("/{station_number}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public void deleteStation(String station_number) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<Void> deleteStation(String station_number) {
         log.info("Deleting station with station_number: " + station_number);
         stationRepository.delete(station_number).await().indefinitely();
+        return Uni.createFrom().nullItem();
     }
 }
 
