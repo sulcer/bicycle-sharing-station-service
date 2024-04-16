@@ -25,16 +25,17 @@ public class StationResource {
         return Uni.createFrom().nullItem();
     }
 
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<String> getAllStations() {
-//        log.info("Getting all stations");
-//        return stationRepository.listAll().await().indefinitely().stream().map(Station::getName).collect(Collectors.toList());
-//    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<List<Station>> getAllStations() {
+    public List<String> getAllStations() {
+        log.info("Getting all stations");
+        return stationRepository.listAll().await().indefinitely().stream().map(Station::getName).collect(Collectors.toList());
+    }
+
+    @GET
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<List<Station>> getAll() {
         log.info("Getting all stations");
         return stationRepository.listAll();
     }
