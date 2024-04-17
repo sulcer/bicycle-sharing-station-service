@@ -64,5 +64,15 @@ public class StationResource {
         stationRepository.delete(station_number).await().indefinitely();
         return Uni.createFrom().nullItem();
     }
+
+    //delete all
+    @DELETE
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<Void> deleteAll() {
+        log.info("Deleting all stations");
+        stationRepository.deleteAll().await().indefinitely();
+        return Uni.createFrom().nullItem();
+    }
 }
 
